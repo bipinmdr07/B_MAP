@@ -22,6 +22,7 @@ public class UserPage extends AppCompatActivity {
     TextView bank_key, bank_value;
     TextView account_no_key, account_no_value;
     TextView nationality_key, nationality_value;
+    TextView home_contact_key, home_contact_value, mobile_contact_key, mobile_contact_value, work_contact_key, work_contact_value;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,12 @@ public class UserPage extends AppCompatActivity {
         account_no_value = (TextView) findViewById(R.id.account_no_value);
         nationality_key = (TextView) findViewById(R.id.nationality_key);
         nationality_value = (TextView) findViewById(R.id.nationality_value);
+        home_contact_key = (TextView) findViewById(R.id.home_contact_key);
+        home_contact_value = (TextView) findViewById(R.id.home_contact_value);
+        mobile_contact_key = (TextView) findViewById(R.id.mobile_contact_key);
+        mobile_contact_value = (TextView) findViewById(R.id.mobile_contact_value);
+        work_contact_key = (TextView) findViewById(R.id.work_contact_key);
+        work_contact_value = (TextView) findViewById(R.id.work_contact_value);
 
         Bundle extra = getIntent().getExtras();
         int id;
@@ -70,18 +77,34 @@ public class UserPage extends AppCompatActivity {
                             email_key.setText("Email");
                             email_value.setText(personal_detail.get("email").getAsString());
                             address_key.setText("Address");
-                            address_value.setText(personal_detail.get("address").getAsString());
+                            address_value.setText(check_if_null(personal_detail, "address"));
                             bank_key.setText("Bank Name");
-                            bank_value.setText(personal_detail.get("bank-name").getAsString());
+                            bank_value.setText(check_if_null(personal_detail, "bank-name"));
                             account_no_key.setText("Account no");
-                            account_no_value.setText(personal_detail.get("account-number").getAsString());
+                            account_no_value.setText(check_if_null(personal_detail, "account-number"));
                             nationality_key.setText("Nationality");
-                            nationality_value.setText(personal_detail.get("nationality").getAsString());
+                            nationality_value.setText(check_if_null(personal_detail, "nationality"));
+                            home_contact_key.setText("Home");
+                            home_contact_value.setText(check_if_null(personal_detail, "home"));
+                            mobile_contact_key.setText("Mobile");
+                            mobile_contact_value.setText(check_if_null(personal_detail, "mobile"));
+                            work_contact_key.setText("Work");
+                            work_contact_value.setText(check_if_null(personal_detail, "work"));
+
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Please check yout internet connection", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+    }
+
+    private String check_if_null(JsonObject personal_detail, String KEY){
+        if(personal_detail.get(KEY).isJsonNull()){
+            return null;
+        }
+        else {
+            return personal_detail.get(KEY).getAsString();
+        }
     }
 }
